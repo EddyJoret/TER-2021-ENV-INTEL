@@ -24,8 +24,8 @@ services:
     networks:
       - node-red-net
     ports:
-      #- "1880:1880"
-      - "5455:1880"
+      - "1880:1880"
+      #- "5455:1880"
     volumes:
       #Pour MAC:
       #- ./:/data
@@ -38,8 +38,8 @@ services:
     networks:
       - node-red-net
     ports:
-      #- "1883:1883"
-      - "5445:1883"
+      - "1883:1883"
+      #- "5445:1883"
 
   mongo:
     image: mongo
