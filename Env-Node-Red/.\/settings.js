@@ -1,23 +1,15 @@
 /**
- * Copyright JS Foundation and other contributors, http://js.foundation
+ * This is the default settings file provided by Node-RED.
  *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
+ * It can contain any valid JavaScript code that will get run when Node-RED
+ * is started.
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ * Lines that start with // are commented out.
+ * Each entry should be separated from the entries above and below by a comma ','
  *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * For more information about individual settings, refer to the documentation:
+ *    https://nodered.org/docs/user-guide/runtime/configuration
  **/
-
-// The `https` setting requires the `fs` module. Uncomment the following
-// to make it available:
-var fs = require("fs");
-var path = require("path");
 
 module.exports = {
     // the tcp port that the Node-RED web server is listening on
@@ -66,7 +58,7 @@ module.exports = {
     //debugUseColors: true,
 
     // The file containing the flows. If not set, it defaults to flows_<hostname>.json
-    flowFile: './flows.json',
+    //flowFile: 'flows.json',
 
     // To enabled pretty-printing of the flow within the flow file, set the following
     //  property to true:
@@ -92,25 +84,22 @@ module.exports = {
     // By default, the Node-RED UI is available at http://localhost:1880/
     // The following property can be used to specify a different root path.
     // If set to false, this is disabled.
-    httpAdminRoot: '/admin',
-    ui: {
-        path: '/ui/'
-    },
+    //httpAdminRoot: '/admin',
 
     // Some nodes, such as HTTP In, can be used to listen for incoming http requests.
     // By default, these are served relative to '/'. The following property
     // can be used to specifiy a different root path. If set to false, this is
     // disabled.
-    //httpNodeRoot: '/admin',
+    //httpNodeRoot: '/red-nodes',
 
     // The following property can be used in place of 'httpAdminRoot' and 'httpNodeRoot',
     // to apply the same root to both parts.
-    //httpRoot: '/admin',
+    //httpRoot: '/red',
 
     // When httpAdminRoot is used to move the UI to a different root path, the
     // following property can be used to identify a directory of static content
     // that should be served at http://localhost:1880/.
-    httpStatic: path.join(__dirname, '../Env-Assets/'),
+    //httpStatic: '/home/nol/node-red-static/',
 
     // The maximum size of HTTP request that will be accepted by the runtime api.
     // Default: 5mb
@@ -124,35 +113,49 @@ module.exports = {
     // -----------------
     // To password protect the Node-RED editor and admin API, the following
     // property can be used. See http://nodered.org/docs/security.html for details.
-    adminAuth: {
-        type: "credentials",
-        users: [{
-            username: "admin",
-            password: "$2a$08$a6Jcr/5yXhU/6SQS5S4sk.b777VnAt4RBh1rZnXGynXf9GUJMo7YC",
-            permissions: "*"
-        }],
-        default: {
-            permissions: "read" // remove the * to grant no permissions to not authorized users
-        }
-    },
+    //adminAuth: {
+    //    type: "credentials",
+    //    users: [{
+    //        username: "admin",
+    //        password: "$2a$08$zZWtXTja0fB1pzD4sHCMyOCMYz2Z6dNbM6tl8sJogENOMcxWV9DN.",
+    //        permissions: "*"
+    //    }]
+    //},
 
     // To password protect the node-defined HTTP endpoints (httpNodeRoot), or
     // the static content (httpStatic), the following properties can be used.
     // The pass field is a bcrypt hash of the password.
     // See http://nodered.org/docs/security.html#generating-the-password-hash
-    //httpNodeAuth: {user:"user",pass:"$2a$08$a6Jcr/5yXhU/6SQS5S4sk.b777VnAt4RBh1rZnXGynXf9GUJMo7YC"},
+    //httpNodeAuth: {user:"user",pass:"$2a$08$zZWtXTja0fB1pzD4sHCMyOCMYz2Z6dNbM6tl8sJogENOMcxWV9DN."},
     //httpStaticAuth: {user:"user",pass:"$2a$08$zZWtXTja0fB1pzD4sHCMyOCMYz2Z6dNbM6tl8sJogENOMcxWV9DN."},
 
     // The following property can be used to enable HTTPS
     // See http://nodejs.org/api/https.html#https_https_createserver_options_requestlistener
     // for details on its contents.
-    // See the comment at the top of this file on how to load the `fs` module used by
-    // this setting.
-    //
+    // This property can be either an object, containing both a (private) key and a (public) certificate,
+    // or a function that returns such an object:
+    //// https object:
     //https: {
-    //    key: fs.readFileSync('privatekey.pem'),
-    //    cert: fs.readFileSync('certificate.pem')
+    //  key: require("fs").readFileSync('privkey.pem'),
+    //  cert: require("fs").readFileSync('cert.pem')
     //},
+    ////https function:
+    // https: function() {
+    //     // This function should return the options object, or a Promise
+    //     // that resolves to the options object
+    //     return {
+    //         key: require("fs").readFileSync('privkey.pem'),
+    //         cert: require("fs").readFileSync('cert.pem')
+    //     }
+    // },
+
+    // The following property can be used to refresh the https settings at a
+    // regular time interval in hours.
+    // This requires:
+    //   - the `https` setting to be a function that can be called to get
+    //     the refreshed settings.
+    //   - Node.js 11 or later.
+    //httpsRefreshInterval : 12,
 
     // The following property can be used to cause insecure HTTP connections to
     // be redirected to HTTPS.
@@ -188,6 +191,17 @@ module.exports = {
     //    //req.skipRawBodyParser = true;
     //    next();
     //},
+
+
+    // The following property can be used to add a custom middleware function
+    // in front of all admin http routes. For example, to set custom http
+    // headers
+    // httpAdminMiddleware: function(req,res,next) {
+    //    // Set the X-Frame-Options header to limit where the editor
+    //    // can be embedded
+    //    //res.set('X-Frame-Options', 'sameorigin');
+    //    next();
+    // },
 
     // The following property can be used to pass custom options to the Express.js
     // server used by Node-RED. For a full list of available options, refer
@@ -250,7 +264,7 @@ module.exports = {
     // palette. If a node's category is not in the list, the category will get
     // added to the end of the palette.
     // If not set, the following default order is used:
-    //paletteCategories: ['subflows','flow','input','output','function','parser','social','mobile','storage','analysis','advanced'],
+    //paletteCategories: ['subflows', 'common', 'function', 'network', 'sequence', 'parser', 'storage'],
 
     // Configure the logging output
     logging: {
