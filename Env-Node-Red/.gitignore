@@ -5,5 +5,8 @@ node_modules
 .config.nodes.json
 .config.runtime.json
 .config.users.json
+.config.users.json.backup
 .sessions.json
 .flows.json.backup
+.flows_cred.json
+.flows_cred.json.backup
