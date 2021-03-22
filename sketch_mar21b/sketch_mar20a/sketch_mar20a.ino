@@ -16,7 +16,7 @@ char* password = "9P6HeG4ghiL275rEWg";
 char *topicin = "measure"; 
 char *topicout = "measure"; 
 char *msgTemp  = "22.5"; 
-char* mqtt_server = "mqtt-brocker";
+char* mqtt_server = "localhost";
 
 WiFiClient espClient;
 PubSubClient client(espClient);
@@ -60,10 +60,10 @@ void reconnect() {
   while (!client.connected()) {
     Serial.print("Attempting MQTT connection...");
     // Create a random client ID
-    String clientId = "ESP8266Client-";
-    clientId += String(random(0xffff), HEX);
+    /*String clientId = "ESP8266Client-";
+    clientId += String(random(0xffff), HEX);*/
     // Attempt to connect
-    if (client.connect(clientId.c_str())) {
+    if (client.connect(/*clientId.c_str()*/"VaTeFaireEnculerCordialementEddyJoret")) {
       Serial.println("connected");
 
     } else {
@@ -78,12 +78,12 @@ void reconnect() {
 
 void setup() {
   delay(3000);
-  Serial.begin(38400);
+  Serial.begin(115200);
 
 // Print a start message  
   Serial.println(F("Simple MQTT demo")); 
   setup_wifi();
-  client.setServer(mqtt_server, 1883);
+  client.setServer(mqtt_server, 4546);
   //client.setCallback(callback);
 }
 

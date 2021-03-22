@@ -3,8 +3,8 @@
 #define WIFI_SSID "Bbox-AAC99E7C"
 #define WIFI_PWD "9P6HeG4ghiL275rEWg"
 
-#define MQTT_IP "IPAddress(20, 188, 44, 39)"
-#define MQTT_PORT 1883
+#define MQTT_IP "127.0.0.1"
+#define MQTT_PORT 4546
 
     #ifdef ARDUINO_ARCH_ESP8266
         #include <ESP8266WiFi.h>
@@ -73,7 +73,7 @@
                 Serial.print(client.state());
                 Serial.println(" try again in 5 seconds");
                 // Wait before retrying
-                delay(100);
+                delay(5000);
             }
         }
     }
