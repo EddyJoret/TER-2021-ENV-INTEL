@@ -1,11 +1,9 @@
 import { Component, AfterViewInit, OnInit, ViewChild, ElementRef } from '@angular/core';
 import * as L from 'leaflet';
-import { map } from 'rxjs/operators';
+import { map, shareReplay } from 'rxjs/operators';
 import { Breakpoints, BreakpointObserver } from '@angular/cdk/layout';
 import { Observable } from 'rxjs';
 import { AppService } from '../app.service';
-import { ChartDataSets, ChartOptions, ChartType} from 'chart.js';
-import { Color, Label } from 'ng2-charts';
 
 @Component({
   selector: 'app-map',
@@ -64,22 +62,23 @@ export class MapComponent implements OnInit{
     this.appService.getDeals().subscribe(
       response=>{
         this.dataCapt1 = response.handsetCards;
+        const container = L.DomUtil.get('map');
+        //console.log(container.leaflet_id);
+        if (container != null) {
+          this.map?.off();
+          this.map?.remove();
+          //container._leaflet_id = null;
+          //this.initMap();
+        }
+        console.log(container);
         this.initMap();
-        console.log(this.map);
-        /*for(let i = 0; i <= response.handsetCards.length; i++){
-          //console.log(response.handsetCards[i])
-          //console.log(response.handsetCards[i].data);
-          //console.log(JSON.stringify(response.handsetCards[i].data))
-          //this.marker.bindPopup(JSON.stringify(response.handsetCards[i]._id));
-          this.latlgn = L.latLng(response.handsetCards[0].Lat, response.handsetCards[0].Long);
-          console.log(this.latlgn);
-        }*/
+        
       },
       error =>{
         alert('Impossible de recevoir les données du serveur');
       });
       //this.initMap();
-      console.log(this.map);
+      console.log('ngoninit map');
   }
 
   private initMap(): void {
@@ -87,12 +86,6 @@ export class MapComponent implements OnInit{
       maxZoom: 19,
       attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
     });
- 
-    const container = L.DomUtil.get('map');
-    //console.log(container.leaflet_id);
-    if (container != null) {
-      //container._leaflet_id = null;
-    }
  
     this.map = L.map('map', {
       center: [ 43.2951, -0.370797 ],
@@ -130,5 +123,7 @@ export class MapComponent implements OnInit{
     //https://github.com/pointhi/leaflet-color-markers
   }*/
 
-  constructor(private breakpointObserver: BreakpointObserver, public appService: AppService) {}
+  constructor(private breakpointObserver: BreakpointObserver, public appService: AppService) {
+    console.log('constructor map');
+  }
 }

@@ -19,7 +19,7 @@ export class Capteur1Component implements OnInit {
   cardsForWeb = [];
 
   lineChartData: ChartDataSets[] = [
-    { data: [0], label: 'Crude oil prices' },
+    { data: [0], label: 'Humidité dans le sol' },
   ];
 
   lineChartLabels: Label[] = [];
@@ -62,8 +62,9 @@ export class Capteur1Component implements OnInit {
         this.cardsForHandset = response.handsetCards;
         this.cardsForWeb = response.webCards;
         for(let i = 0; i <= response.handsetCards.length; i++){
-          this.lineChartData[0].data?.push(response.handsetCards[i].data);
-          this.lineChartLabels.push(response.handsetCards[i].date);
+          console.log(response.handsetCards);
+          this.lineChartData[0].data?.push(response.handsetCards[i].Pression);
+          //this.lineChartLabels.push(response.handsetCards[i].date);
         }
         //this.loadCards();
         
