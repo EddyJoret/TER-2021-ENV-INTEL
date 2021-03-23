@@ -1,4 +1,4 @@
-import { Component, AfterViewInit } from '@angular/core';
+import { Component, AfterViewInit, OnInit, ViewChild, ElementRef } from '@angular/core';
 import * as L from 'leaflet';
 import { map } from 'rxjs/operators';
 import { Breakpoints, BreakpointObserver } from '@angular/cdk/layout';
@@ -12,11 +12,12 @@ import { Color, Label } from 'ng2-charts';
   templateUrl: './map.component.html',
   styleUrls: ['./map.component.css']
 })
-export class MapComponent implements AfterViewInit{
-
-  map: L.Map | L.LayerGroup<any> | undefined;
+export class MapComponent implements OnInit{
+  private map: L.Map | L.LayerGroup<any> | undefined;
   data = [];
-  dataCapt1 = [];
+  dataCapt1: any;
+  marker: any;
+  latlgn: any;
 
   smallIcon = new L.Icon({
     iconUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-icon.png',
@@ -56,30 +57,53 @@ export class MapComponent implements AfterViewInit{
     })
   );
 
-  ngAfterViewInit(): void {
+  ngOnInit(): void {
     this.isHandsetObserver.subscribe(currentObserverValue =>{
       this.isHandset = currentObserverValue;
     });
     this.appService.getDeals().subscribe(
       response=>{
         this.dataCapt1 = response.handsetCards;
-        for(let i = 0; i <= response.handsetCards.length; i++){
-          console.log(response.handsetCards[i].data)
-          if(response.handsetCards[i].data > 50){
-            console.log('ok');
-            //const marker2 = L.marker([43.295918745162524, -0.3740672038575137], { icon: this.greenIcon }).addTo(map);
-          }
-        }
+        this.initMap();
+        console.log(this.map);
+        /*for(let i = 0; i <= response.handsetCards.length; i++){
+          //console.log(response.handsetCards[i])
+          //console.log(response.handsetCards[i].data);
+          //console.log(JSON.stringify(response.handsetCards[i].data))
+          //this.marker.bindPopup(JSON.stringify(response.handsetCards[i]._id));
+          this.latlgn = L.latLng(response.handsetCards[0].Lat, response.handsetCards[0].Long);
+          console.log(this.latlgn);
+        }*/
       },
       error =>{
         alert('Impossible de recevoir les données du serveur');
-
-      }
-    )
-    this.createMap();
+      });
+      //this.initMap();
+      console.log(this.map);
   }
 
-  createMap() {
+  private initMap(): void {
+    const tiles = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      maxZoom: 19,
+      attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+    });
+ 
+    const container = L.DomUtil.get('map');
+    //console.log(container.leaflet_id);
+    if (container != null) {
+      //container._leaflet_id = null;
+    }
+ 
+    this.map = L.map('map', {
+      center: [ 43.2951, -0.370797 ],
+      zoom: 13
+    });
+ 
+    tiles.addTo(this.map);
+    console.log(this.dataCapt1);
+  }
+
+  /*createMap() {
     const pau = {
       lat: 43.2951,
       lng: -0.370797,
@@ -99,12 +123,12 @@ export class MapComponent implements AfterViewInit{
     });
 
     mainLayer.addTo(this.map);
-    const marker = L.marker([pau.lat, pau.lng], { icon: this.orangeIcon }).addTo(this.map);
-    //marker.bindPopup(this.dataCapt1);
+    //this.marker = L.marker([this.dataCapt1[0].Lat, this.dataCapt1[0].Long], { icon: this.orangeIcon }).addTo(this.map);
     
     const marker2 = L.marker([43.295918745162524, -0.3740672038575137], { icon: this.greenIcon }).addTo(this.map);
+    //console.log(this.dataCapt1[0].Lat);
     //https://github.com/pointhi/leaflet-color-markers
-  }
+  }*/
 
   constructor(private breakpointObserver: BreakpointObserver, public appService: AppService) {}
 }
