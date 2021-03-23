@@ -1,7 +1,7 @@
 .pio
 .vscode
 .idea
-node_modules
+
 
 # files generated when node-red is started
 .config.nodes.json
