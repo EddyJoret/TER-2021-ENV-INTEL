@@ -20,19 +20,31 @@ async function queryCollection(){
             "webCards": []
         };
 
-        const capteurHumCollection = await db.collection('capteur_hum').find().toArray();
+        const capteurHumCollection = await db.collection('poubelle').find().toArray();
         capteurHumCollection.forEach(element => {
             let handsetElement = {};
-            handsetElement['_id'] = element['_id'];
+            /*handsetElement['_id'] = element['_id'];
             handsetElement['data'] = element['payload'].data;
-            handsetElement['date'] = element['payload'].ts;
+            handsetElement['date'] = element['payload'].ts;*/
+            handsetElement['_id'] = element['_id'];
+            handsetElement['Lat'] = element['Lat'];
+            handsetElement['Long'] = element['Long'];
+            handsetElement['Type'] = element['Type'];
+            handsetElement['Seuil'] = element['Seuil'];
+            handsetElement['Pression'] = element['Pression'];
             //handsetElement['_msgid'] = element['_msgid'];
             jsonResponse.handsetCards.push(handsetElement);
 
             let webElement = {};
-            webElement['_id'] = element['_id'];
+            /*webElement['_id'] = element['_id'];
             webElement['data'] = element['payload'].data;
-            webElement['date'] = element['payload'].ts;
+            webElement['date'] = element['payload'].ts;*/
+            webElement['_id'] = element['_id'];
+            webElement['Lat'] = element['Lat'];
+            webElement['Long'] = element['Long'];
+            webElement['Type'] = element['Type'];
+            webElement['Seuil'] = element['Seuil'];
+            webElement['Pression'] = element['Pression'];
             //webElement['_msgid'] = element['_msgid'];
             jsonResponse.webCards.push(webElement);
 
