@@ -1,5 +1,79 @@
-<div class="map-wrapper">
-    <div class="map-border">
-      <div id="map"></div>
-    </div>
+<h1>Gestion des poubelles</h1>
+<div class="container">
+  <mat-card class="example-card">
+    <mat-card-header>
+      <mat-card-title>Carte des poubelles à Pau</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <div class="map-wrapper">
+        <div id="map"></div>
+      </div>
+    </mat-card-content>
+  </mat-card>
+  
+  <mat-card class="list-card">
+    <mat-card-content>
+      <div class="trash-view">
+        <h2>Liste des poubelles pleines à Pau</h2>
+        <h4>Poubelles à verres :</h4>
+        <hr>
+        <div *ngFor="let data of dataCapt1">
+          <div *ngIf="data.Type == 'Verre'">
+            <div *ngIf="data.Pression >= data.Seuil">Poubelle {{data._id}}</div>
+          </div>
+        </div>
+        <br>
+        <h4>Poubelles à recyclage :</h4>
+        <hr>
+        <div *ngFor="let data of dataCapt1">
+          <div *ngIf="data.Type == 'Recyclage'">
+            <div *ngIf="data.Pression >= data.Seuil">Poubelle {{data._id}}</div>
+          </div>
+        </div>
+        <br>
+        <h4>Poubelles pour déchets communs :</h4>
+        <hr>
+        <div *ngFor="let data of dataCapt1">
+          <div *ngIf="data.Type == 'Commun'">
+            <div *ngIf="data.Pression >= data.Seuil">Poubelle {{data._id}}</div>
+          </div>
+        </div>
+      </div>
+    </mat-card-content>
+  </mat-card>
 </div>
+
+
+
+<!--<div class="map-wrapper">
+    <div id="map"></div>
+</div>
+
+<div class="trash-view">
+  <h2>Liste des poubelles à Pau</h2>
+  <div *ngFor="let data of dataCapt1">
+    <div>Poubelle {{data._id}}</div>
+  </div>
+  <h2>Liste des poubelles pleines à Pau</h2>
+  <h4>Poubelles à verres :</h4>
+  <div *ngFor="let data of dataCapt1">
+    <div *ngIf="data.Type == 'Verre'">
+      <div *ngIf="data.Pression >= data.Seuil">Poubelle {{data._id}}</div>
+    </div>
+  </div>
+  <br>
+  <h4>Poubelles à recyclage :</h4>
+  <div *ngFor="let data of dataCapt1">
+    <div *ngIf="data.Type == 'Recyclage'">
+      <div *ngIf="data.Pression >= data.Seuil">Poubelle {{data._id}}</div>
+    </div>
+  </div>
+  <br>
+  <h4>Poubelles pour déchets communs :</h4>
+  <div *ngFor="let data of dataCapt1">
+    <div *ngIf="data.Type == 'Commun'">
+      <div *ngIf="data.Pression >= data.Seuil">Poubelle {{data._id}}</div>
+    </div>
+  </div>
+</div>-->
+
