@@ -7,6 +7,7 @@ var logger = require('morgan');
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var captHumRouter = require('./routes/capteur_hum');
+var mqtt = require('./public/javascripts/mqtt');
 var cors = require('cors');
 
 var app = express();
