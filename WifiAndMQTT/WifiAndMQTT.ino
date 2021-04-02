@@ -17,7 +17,7 @@ char* password = "9P6HeG4ghiL275rEWg";
 //char *topicin = "UPPA/test"; 
 //char *topicout = "UPPA/test"; 
 char *msgTemp  = "22.5"; 
-char* mqtt_server = "195.168.1.65";
+char* mqtt_server = "192.168.1.67";
 
 WiFiClient espClient;
 PubSubClient client(espClient);
