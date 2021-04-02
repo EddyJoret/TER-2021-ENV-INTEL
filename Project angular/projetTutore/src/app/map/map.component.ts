@@ -1,4 +1,4 @@
-import { Component, AfterViewInit, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { Component, AfterViewInit, OnInit, ViewChild, ElementRef, Input } from '@angular/core';
 import * as L from 'leaflet';
 import { map, shareReplay } from 'rxjs/operators';
 import { Breakpoints, BreakpointObserver } from '@angular/cdk/layout';
@@ -12,12 +12,17 @@ import { AppService } from '../app.service';
   styleUrls: ['./map.component.css']
 })
 export class MapComponent implements OnInit{
+  @Input() checkRecy: any;
+  @Input() checkCommun: any;
+  @Input() checkVerre: any;
+
   private map: L.Map | L.LayerGroup<any> | undefined;
   data = [];
   dataCapt1: any;
-  //marker: any;
-  latlgn: any;
-  list:any;
+  
+  groupVerre = new L.LayerGroup();
+  groupCommun = new L.LayerGroup();
+  groupRecy = new L.LayerGroup();
 
   greenRecy = new L.Icon({
     iconUrl: '../assets/recyclage-green.png',
@@ -129,7 +134,6 @@ export class MapComponent implements OnInit{
         alert('Impossible de recevoir les données du serveur');
       });
       //this.initMap();
-      this.listTrash();
   }
 
   private initMap(): void {
@@ -148,13 +152,17 @@ export class MapComponent implements OnInit{
 
     for(let i = 0; i <= this.dataCapt1.length; i++){
       this.initMarker(this.dataCapt1[i].Lat, this.dataCapt1[i].Long, this.dataCapt1[i]).addTo(this.map);
+      this.map.addLayer(this.groupRecy);
+      this.map.addLayer(this.groupCommun);
+      this.map.addLayer(this.groupVerre);
     }
   }
 
   initMarker(lat: any, long:any, object:any){
     const marker = L.marker([lat, long]);
-    marker.bindPopup("id: " + object._id);
+    marker.bindPopup("Poubelle numéro: " + object._id + "<br>" + "Type: " + object.Type + "<br><br>" + "<button id='btn-info' (click)>+ d'info</button>");
     if(object.Type == "Recyclage"){
+      this.groupRecy?.addLayer(marker);
       marker.setIcon(this.greenRecy);
       if(object.Seuil <= object.Pression){
         marker.setIcon(this.redRecy);
@@ -162,6 +170,7 @@ export class MapComponent implements OnInit{
         marker.setIcon(this.orangeRecy);
       }
     }else if(object.Type == "Commun"){
+      this.groupCommun?.addLayer(marker);
       marker.setIcon(this.greenCom);
       if(object.Seuil <= object.Pression){
         marker.setIcon(this.redCom);
@@ -169,6 +178,7 @@ export class MapComponent implements OnInit{
         marker.setIcon(this.orangeCom);
       }
     }else{
+      this.groupVerre?.addLayer(marker);
       marker.setIcon(this.greenGlass);
       if(object.Seuil <= object.Pression){
         marker.setIcon(this.redGlass);
@@ -179,8 +189,31 @@ export class MapComponent implements OnInit{
     return marker;
   }
 
-  listTrash(){
-    console.log('ok');
+  removeRecy(){
+    this.checkRecy = !this.checkRecy;
+    if(!this.checkRecy){
+      this.map?.addLayer(this.groupRecy);
+    }else{
+      this.map?.removeLayer(this.groupRecy);
+    }
+  }
+
+  removeCommun(){
+    this.checkCommun = !this.checkCommun;
+    if(!this.checkCommun){
+      this.map?.addLayer(this.groupCommun);
+    }else{
+      this.map?.removeLayer(this.groupCommun);
+    }
+  }
+
+  removeVerre(){
+    this.checkVerre = !this.checkVerre;
+    if(!this.checkVerre){
+      this.map?.addLayer(this.groupVerre);
+    }else{
+      this.map?.removeLayer(this.groupVerre);
+    }
   }
 
   constructor(private breakpointObserver: BreakpointObserver, public appService: AppService) {}
