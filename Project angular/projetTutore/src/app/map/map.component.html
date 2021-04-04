@@ -5,6 +5,10 @@
       <mat-card-title>Carte des poubelles à Pau</mat-card-title>
     </mat-card-header>
     <mat-card-content>
+      <mat-slide-toggle (click)="removeRecy()" checked>Poubelles recyclage</mat-slide-toggle>
+      <mat-slide-toggle (click)="removeCommun()" checked>Poubelles communes</mat-slide-toggle>
+      <mat-slide-toggle (click)="removeVerre()"checked>Poubelles à verre</mat-slide-toggle>
+
       <div class="map-wrapper">
         <div id="map"></div>
       </div>
