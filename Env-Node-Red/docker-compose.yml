@@ -28,9 +28,9 @@ services:
       #- "5455:1880"
     volumes:
       #Pour MAC:
-      #- ./:/data
+      - ./:/data
       #Pour Windows:
-      - .\:/data
+      #- .\:/data
 
   mqtt-brocker:
     image: eclipse-mosquitto:1.6

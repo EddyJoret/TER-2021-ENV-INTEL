@@ -27,8 +27,9 @@ async function queryCollection(){
             handsetElement['data'] = element['payload'].data;
             handsetElement['date'] = element['payload'].ts;*/
             handsetElement['_id'] = element['_id'];
-            handsetElement['Lat'] = element['Lat'];
-            handsetElement['Long'] = element['Long'];
+            /*handsetElement['Lat'] = element['Lat'];
+            handsetElement['Long'] = element['Long'];*/
+            handsetElement['Coord'] = element['Coord'];
             handsetElement['Type'] = element['Type'];
             handsetElement['Seuil'] = element['Seuil'];
             handsetElement['Pression'] = element['Pression'];
@@ -40,8 +41,9 @@ async function queryCollection(){
             webElement['data'] = element['payload'].data;
             webElement['date'] = element['payload'].ts;*/
             webElement['_id'] = element['_id'];
-            webElement['Lat'] = element['Lat'];
-            webElement['Long'] = element['Long'];
+            /*webElement['Lat'] = element['Lat'];
+            webElement['Long'] = element['Long'];*/
+            webElement['Coord'] = element['Coord'];
             webElement['Type'] = element['Type'];
             webElement['Seuil'] = element['Seuil'];
             webElement['Pression'] = element['Pression'];
