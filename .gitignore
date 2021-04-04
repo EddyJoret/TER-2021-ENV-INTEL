@@ -2,7 +2,7 @@
 .vscode
 .idea
 .npm
-.DS_Store
+
 
 # files generated when node-red is started
 .config.nodes.json
@@ -14,3 +14,4 @@
 .sessions.json
 flows_cred.json
 node_modules
+.DS_Store
