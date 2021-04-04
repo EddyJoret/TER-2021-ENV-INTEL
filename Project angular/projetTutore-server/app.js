@@ -7,7 +7,8 @@ var logger = require('morgan');
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var captHumRouter = require('./routes/capteur_hum');
-var mqtt = require('./public/javascripts/mqtt');
+//var mqtt = require('./public/javascripts/mqtt');
+var mqttHandler = require('./routes/mqttRoute');
 var cors = require('cors');
 
 var app = express();
@@ -25,6 +26,16 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(cors());
 app.use('/', indexRouter);
 app.use('/capt1', captHumRouter);
+
+var mqttClient = new mqttHandler();
+mqttClient.connect();
+
+
+app.use("/mqtt", function(req, res) {
+  mqttClient.receiveMessage();
+  //res.status(200).send("Message sent to mqtt");
+});
+
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

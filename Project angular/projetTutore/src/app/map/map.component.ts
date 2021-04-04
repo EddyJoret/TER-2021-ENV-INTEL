@@ -120,7 +120,7 @@ export class MapComponent implements OnInit{
     this.isHandsetObserver.subscribe(currentObserverValue =>{
       this.isHandset = currentObserverValue;
     });
-    this.appService.getDeals().subscribe(
+    this.appService.getMqtt().subscribe(
       response=>{
         this.dataCapt1 = response.handsetCards;
         const container = L.DomUtil.get('map');
@@ -151,7 +151,7 @@ export class MapComponent implements OnInit{
     tiles.addTo(this.map);
 
     for(let i = 0; i <= this.dataCapt1.length; i++){
-      this.initMarker(this.dataCapt1[i].Lat, this.dataCapt1[i].Long, this.dataCapt1[i]).addTo(this.map);
+      this.initMarker(this.dataCapt1[i].Coord.Lat, this.dataCapt1[i].Coord.Long, this.dataCapt1[i]).addTo(this.map);
       this.map.addLayer(this.groupRecy);
       this.map.addLayer(this.groupCommun);
       this.map.addLayer(this.groupVerre);
@@ -160,7 +160,7 @@ export class MapComponent implements OnInit{
 
   initMarker(lat: any, long:any, object:any){
     const marker = L.marker([lat, long]);
-    marker.bindPopup("Poubelle numéro: " + object._id + "<br>" + "Type: " + object.Type + "<br><br>" + "<button id='btn-info' (click)>+ d'info</button>");
+    marker.bindPopup("Poubelle numéro: " + object._id + "<br>" + "Type: " + object.Type + "<br><br>" + "<button id='btn-info' onclick='infoPoubelle()'>+ d'info</button>");
     if(object.Type == "Recyclage"){
       this.groupRecy?.addLayer(marker);
       marker.setIcon(this.greenRecy);
@@ -214,6 +214,10 @@ export class MapComponent implements OnInit{
     }else{
       this.map?.removeLayer(this.groupVerre);
     }
+  }
+
+  infoPoubelle(){
+    console.log('ok poubelle');
   }
 
   constructor(private breakpointObserver: BreakpointObserver, public appService: AppService) {}
