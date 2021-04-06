@@ -14,52 +14,61 @@ version: "3.7"
 # the list of container to start
 services:
   node-red:
-    build: .
+    build: 
+      context: ./Env-Node-Red
+      dockerfile: Dockerfile
     environment:
       - TZ=Europe/Amsterdam
     depends_on:
       - mqtt-brocker
-      - mongo
     restart: unless-stopped
     networks:
-      - node-red-net
+      - projet-net
     ports:
       - "1880:1880"
       #- "5455:1880"
     volumes:
       #Pour MAC:
-      - ./:/data
+      - ./Env-Node-Red:/data
       #Pour Windows:
       #- .\:/data
+  
 
   mqtt-brocker:
     image: eclipse-mosquitto:1.6
     restart: unless-stopped
     networks:
-      - node-red-net
+      - projet-net
     ports:
       - "1883:1883"
       #- "5445:1883"
-
-  mongo:
-    image: mongo
+  
+  projettutoreservice:
+    image: node:12.18-alpine
+    build: 
+      context: .
+      dockerfile: ./Project Angular/projetTutore-server/Dockerfile
+    environment:
+      NODE_ENV: production
+    depends_on:
+      - mqtt-brocker
     restart: unless-stopped
     networks:
-      - node-red-net
-    # - ports: # only used localy, no need to leak it
-    #   - "27017:27017"
-    volumes:
-      - mongo-data:/data/db
+      - projet-net
+    ports:
+      - "3000:3000"
+    volumes :
+      - ./Project Angular/projetTutore-server:/usr/src/app
+      
 
 # Declare a couple volume that will outlive the VMs
 volumes:
-  node-red-data: # bind the current folder as node-red-data
+  projet-data: # bind the current folder as node-red-data
     driver_opts:
       type: none
       device: $PWD
       o: bind
-  mongo-data:
 
 # Declare the shared networks the container will used to interract
 networks:
-  node-red-net:
+  projet-net:

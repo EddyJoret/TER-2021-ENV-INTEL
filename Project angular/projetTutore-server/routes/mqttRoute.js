@@ -5,7 +5,7 @@ var router = express.Router();
 class MqttHandler {
   constructor() {
     this.mqttClient = null;
-    this.host = 'mqtt://192.168.8.114:1883';
+    this.host = 'mqtt://mqtt-brocker:1883';
   }
   
   connect() {

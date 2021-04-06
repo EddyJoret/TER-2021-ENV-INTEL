@@ -25,7 +25,9 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use(cors());
 app.use('/', indexRouter);
+
 app.use('/capt1', captHumRouter);
+
 
 var mqttClient = new mqttHandler();
 mqttClient.connect();
