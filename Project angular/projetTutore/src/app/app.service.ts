@@ -13,7 +13,7 @@ export class AppService {
     return this.httpClient.get('http://localhost:3000/capt1');
   }
 
-  getMqtt(): Observable<any>{
+  /*getMqtt(): Observable<any>{
     return this.httpClient.get('http://localhost:3000/mqtt');
-  }
+  }*/
 }

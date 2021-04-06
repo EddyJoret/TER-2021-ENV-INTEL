@@ -120,7 +120,7 @@ export class MapComponent implements OnInit{
     this.isHandsetObserver.subscribe(currentObserverValue =>{
       this.isHandset = currentObserverValue;
     });
-    this.appService.getMqtt().subscribe(
+    this.appService.getDeals().subscribe(
       response=>{
         this.dataCapt1 = response.handsetCards;
         const container = L.DomUtil.get('map');

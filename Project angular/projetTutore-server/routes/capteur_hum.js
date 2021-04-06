@@ -23,7 +23,6 @@ router.get('/', function(req, res, next) {
     res.json(jsonResponse);
     
   }, 3000);*/
-
   dbMongo.queryCollection().then(response =>{
     res.json(response);
   }).catch(error =>{
