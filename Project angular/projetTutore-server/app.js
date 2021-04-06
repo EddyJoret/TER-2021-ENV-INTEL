@@ -7,11 +7,11 @@ var logger = require('morgan');
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var captHumRouter = require('./routes/capteur_hum');
-//var mqtt = require('./public/javascripts/mqtt');
 var mqttHandler = require('./routes/mqttRoute');
-var cors = require('cors');
 
 var app = express();
+
+
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -23,7 +23,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use(cors());
+//app.use(cors());
 app.use('/', indexRouter);
 
 app.use('/capt1', captHumRouter);
@@ -37,6 +37,9 @@ app.use("/mqtt", function(req, res) {
   mqttClient.receiveMessage();
   //res.status(200).send("Message sent to mqtt");
 });
+
+// établissement de la connexion
+
 
 
 // catch 404 and forward to error handler

@@ -104,6 +104,8 @@ export class MapComponent implements OnInit{
     popupAnchor: [1, -34],
   });
 
+  messageList:  string[] = [];
+
   
 
   isHandset: boolean = false;
@@ -120,7 +122,7 @@ export class MapComponent implements OnInit{
     this.isHandsetObserver.subscribe(currentObserverValue =>{
       this.isHandset = currentObserverValue;
     });
-    this.appService.getDeals().subscribe(
+    /*this.appService.getDeals().subscribe(
       response=>{
         this.dataCapt1 = response.handsetCards;
         const container = L.DomUtil.get('map');
@@ -132,8 +134,26 @@ export class MapComponent implements OnInit{
       },
       error =>{
         alert('Impossible de recevoir les données du serveur');
-      });
-      //this.initMap();
+      });*/
+      this.appService.connect();
+      this.receiveData();
+      this.sendMessage()
+      
+  }
+
+  message : string | undefined;
+
+  receiveData(){
+    this.appService.receiveData().subscribe((message) =>{
+      console.log(message);
+      this.dataCapt1 = message;
+      this.initMap();
+    })
+  }
+
+  sendMessage(){
+    this.appService.sendMessage(this.message);
+    this.message = "ok";
   }
 
   private initMap(): void {
@@ -149,8 +169,9 @@ export class MapComponent implements OnInit{
     });
  
     tiles.addTo(this.map);
-
+    
     for(let i = 0; i <= this.dataCapt1.length; i++){
+      
       this.initMarker(this.dataCapt1[i].Coord.Lat, this.dataCapt1[i].Coord.Long, this.dataCapt1[i]).addTo(this.map);
       this.map.addLayer(this.groupRecy);
       this.map.addLayer(this.groupCommun);

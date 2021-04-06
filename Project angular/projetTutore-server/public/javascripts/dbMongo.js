@@ -1,7 +1,15 @@
 const mongoClient = require('mongodb').MongoClient;
+var express = require('express');
+var app = express();
+
 
 var connected = false;
 var db = null;
+
+let jsonResponse = {
+    "handsetCards": [],
+    "webCards": []
+};
 
 const uri = "mongodb+srv://pcazalis:pcazalis@projettutore.wpu3z.mongodb.net/capteurs?retryWrites=true&w=majority";
 
@@ -15,11 +23,7 @@ mongoClient.connect(uri, {useUnifiedTopology: true}).then(connection =>{
 
 async function queryCollection(){
     if(connected){
-        let jsonResponse = {
-            "handsetCards": [],
-            "webCards": []
-        };
-
+        
         const capteurHumCollection = await db.collection('poubelle').find().toArray();
         capteurHumCollection.forEach(element => {
             let handsetElement = {};
@@ -57,4 +61,5 @@ async function queryCollection(){
     }
 }
 
-module.exports = {queryCollection};
+
+module.exports = {queryCollection, jsonResponse};

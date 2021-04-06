@@ -24,7 +24,8 @@ import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import { ChartsModule } from 'ng2-charts';
 import { MapComponent } from './map/map.component';
 import { Capteur1Component } from './capteur1/capteur1.component';
-
+import { SocketIoModule, SocketIoConfig } from 'ngx-socket-io';
+const config: SocketIoConfig = { url: 'http://localhost:3000/', options: {} };
 @NgModule({
   declarations: [
     AppComponent,
@@ -51,7 +52,8 @@ import { Capteur1Component } from './capteur1/capteur1.component';
     MatSlideToggleModule,
     //MatProgressBarModule,
     MatProgressSpinnerModule,
-    ChartsModule
+    ChartsModule,
+    SocketIoModule.forRoot(config)
   ],
   providers: [
     {provide: HTTP_INTERCEPTORS, useClass: InterceptorService, multi: true}

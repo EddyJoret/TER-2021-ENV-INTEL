@@ -7,6 +7,9 @@
 var app = require('../app');
 var debug = require('debug')('projettutore-service:server');
 var http = require('http');
+var cors = require('cors');
+var dbMongo = require('../public/javascripts/dbMongo');
+app.use(cors());
 
 /**
  * Get port from environment and store in Express.
@@ -20,6 +23,41 @@ app.set('port', port);
  */
 
 var server = http.createServer(app);
+var essai;
+
+// ajout de socket.io
+//const server = require('http').Server(app);
+const io = require('socket.io')(server, {
+  cors: true,
+  origins: ["*"]
+});
+
+io.on('connection', (socket) => {
+  console.log('user connected');
+  dbMongo.queryCollection().then((value) => {
+    essai = value;
+  })
+  socket.on('new-message', (message) => {
+      //console.log(message);
+      //console.log(essai);
+      
+      for(let i = 0; i <= essai.handsetCards.length; i++){
+        console.log(essai.handsetCards[i]);
+        socket.emit('new-message', essai.handsetCards);
+      }
+      essai.handsetCards.length = 0;
+      
+      //socket.emit(message);
+  });
+
+});
+
+
+
+
+
+
+
 
 /**
  * Listen on provided port, on all network interfaces.

@@ -14,7 +14,7 @@ import { Color, Label } from 'ng2-charts';
 export class Capteur1Component implements OnInit {
 
   /** Based on the screen size, switch from standard to one column per row */
-  cards = [];
+  /*cards = [];
   cardsForHandset = [];
   cardsForWeb = [];
 
@@ -78,6 +78,8 @@ export class Capteur1Component implements OnInit {
 
   loadCards(){
     this.cards = this.isHandset ? this.cardsForHandset : this.cardsForWeb;
-  }
+  }*/
+
+  ngOnInit(){}
 
 }
