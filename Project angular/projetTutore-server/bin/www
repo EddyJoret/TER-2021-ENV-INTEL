@@ -34,18 +34,24 @@ const io = require('socket.io')(server, {
 
 io.on('connection', (socket) => {
   console.log('user connected');
-  dbMongo.queryCollection().then((value) => {
-    essai = value;
-  })
+  
   socket.on('new-message', (message) => {
+    dbMongo.queryCollection().then((value) => {
+      essai = value;
+      console.log(essai);
+      socket.emit('new-message', essai.handsetCards);
+      essai.handsetCards.length = 0;
+    })
+    
       //console.log(message);
       //console.log(essai);
       
-      for(let i = 0; i <= essai.handsetCards.length; i++){
+      /*for(let i = 0; i <= essai.handsetCards.length; i++){
         console.log(essai.handsetCards[i]);
-        socket.emit('new-message', essai.handsetCards);
-      }
-      essai.handsetCards.length = 0;
+        
+      }*/
+      
+      //essai.handsetCards.length = 0;
       
       //socket.emit(message);
   });

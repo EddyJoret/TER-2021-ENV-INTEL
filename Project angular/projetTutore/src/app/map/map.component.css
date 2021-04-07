@@ -18,10 +18,10 @@
 
 .map-wrapper {
     position: absolute;
-    top: 15%;
+    top: 17%;
     left: 0;
     right: 0;
-    bottom: 0.5%;
+    bottom: 2%;
 }
     
 #map {
@@ -78,4 +78,11 @@ h2{
 
 hr{
     color: lightblue;
+}
+
+#msj-data{
+    position: absolute;
+    left: 70%;
+    font-size: 11px;
+    color: grey;
 }

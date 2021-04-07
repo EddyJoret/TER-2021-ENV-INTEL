@@ -16,9 +16,11 @@ export class MapComponent implements OnInit{
   @Input() checkCommun: any;
   @Input() checkVerre: any;
 
-  private map: L.Map | L.LayerGroup<any> | undefined;
+  map: any;
   data = [];
   dataCapt1: any;
+  message : string | undefined;
+  date: any;
   
   groupVerre = new L.LayerGroup();
   groupCommun = new L.LayerGroup();
@@ -27,6 +29,7 @@ export class MapComponent implements OnInit{
   greenRecy = new L.Icon({
     iconUrl: '../assets/recyclage-green.png',
     /*iconRetinaUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-icon-2x.png',*/
+    shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
     iconSize:    [30, 30],
     iconAnchor:  [12, 41],
     popupAnchor: [1, -34],
@@ -103,11 +106,7 @@ export class MapComponent implements OnInit{
     iconAnchor:  [12, 41],
     popupAnchor: [1, -34],
   });
-
-  messageList:  string[] = [];
-
   
-
   isHandset: boolean = false;
   isHandsetObserver: Observable<boolean> = this.breakpointObserver.observe(Breakpoints.Handset).pipe(
     map(({ matches }) => {
@@ -136,19 +135,48 @@ export class MapComponent implements OnInit{
         alert('Impossible de recevoir les données du serveur');
       });*/
       this.appService.connect();
+      this.sendMessage();
       this.receiveData();
-      this.sendMessage()
+      setInterval(() => {
+        this.sendMessage();
+        this.receiveData();
+      }, 60000);
+      this.initMap()
       
   }
 
-  message : string | undefined;
+  
 
   receiveData(){
     this.appService.receiveData().subscribe((message) =>{
-      console.log(message);
-      this.dataCapt1 = message;
-      this.initMap();
-    })
+      //console.log(message);
+      this.dataCapt1 = [...message];
+      if(this.groupRecy != undefined){
+        this.map.removeLayer(this.groupRecy);
+        this.groupRecy.clearLayers();
+      }
+      if(this.groupCommun != undefined){
+        this.map.removeLayer(this.groupCommun);
+        this.groupCommun.clearLayers();
+      }
+      if(this.groupVerre != undefined){
+        this.map.removeLayer(this.groupVerre);
+        this.groupVerre.clearLayers();
+      }
+      this.addMarker(message);
+      this.date = new Date();
+      console.log(this.date);
+
+      
+    },
+    (error) => {
+      console.log(error);
+    },
+    () => {
+      console.log('Fini');
+      
+    }
+    );
   }
 
   sendMessage(){
@@ -169,19 +197,23 @@ export class MapComponent implements OnInit{
     });
  
     tiles.addTo(this.map);
-    
-    for(let i = 0; i <= this.dataCapt1.length; i++){
-      
-      this.initMarker(this.dataCapt1[i].Coord.Lat, this.dataCapt1[i].Coord.Long, this.dataCapt1[i]).addTo(this.map);
+  }
+
+  addMarker(message:any){
+    for(let i = 0; i <= message.length; i++){
+      if(message[i] != undefined){
+        this.initMarker(message[i].Coord.Lat, message[i].Coord.Long, message[i]).addTo(this.map);
       this.map.addLayer(this.groupRecy);
       this.map.addLayer(this.groupCommun);
       this.map.addLayer(this.groupVerre);
+      }
+      
     }
   }
 
   initMarker(lat: any, long:any, object:any){
     const marker = L.marker([lat, long]);
-    marker.bindPopup("Poubelle numéro: " + object._id + "<br>" + "Type: " + object.Type + "<br><br>" + "<button id='btn-info' onclick='infoPoubelle()'>+ d'info</button>");
+    marker.bindPopup("Poubelle numéro: " + object._id + "<br>" + "Type: " + object.Type + "<br><br>" + "Pression: " + object.Pression + "<br><br>" + "<button id='btn-info' onclick='infoPoubelle()'>+ d'info</button>");
     if(object.Type == "Recyclage"){
       this.groupRecy?.addLayer(marker);
       marker.setIcon(this.greenRecy);

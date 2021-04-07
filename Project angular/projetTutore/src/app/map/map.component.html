@@ -1,14 +1,17 @@
-<h1>Gestion des poubelles</h1>
+<h1 style="position: absolute; left: 2%; top: 12%;">Gestion des poubelles</h1>
 <div class="container">
   <mat-card class="example-card">
     <mat-card-header>
       <mat-card-title>Carte des poubelles à Pau</mat-card-title>
+      <div *ngIf="date != undefined">
+        <p id="msj-data">Mise à jour des données : {{date.toLocaleDateString('fr-FR')}} à {{date.toLocaleTimeString('fr-FR')}}</p>
+      </div>
     </mat-card-header>
+    <br>
     <mat-card-content>
       <mat-slide-toggle (click)="removeRecy()" checked>Poubelles recyclage</mat-slide-toggle>
-      <mat-slide-toggle (click)="removeCommun()" checked>Poubelles communes</mat-slide-toggle>
-      <mat-slide-toggle (click)="removeVerre()"checked>Poubelles à verre</mat-slide-toggle>
-
+      <mat-slide-toggle (click)="removeCommun()" checked style="margin-left: 10px;">Poubelles communes</mat-slide-toggle>
+      <mat-slide-toggle (click)="removeVerre()"checked style="margin-left: 10px;">Poubelles à verre</mat-slide-toggle>
       <div class="map-wrapper">
         <div id="map"></div>
       </div>
