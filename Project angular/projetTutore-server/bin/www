@@ -42,21 +42,9 @@ io.on('connection', (socket) => {
       socket.emit('new-message', essai.handsetCards);
       essai.handsetCards.length = 0;
     })
-    
-      //console.log(message);
-      //console.log(essai);
-      
-      /*for(let i = 0; i <= essai.handsetCards.length; i++){
-        console.log(essai.handsetCards[i]);
-        
-      }*/
-      
-      //essai.handsetCards.length = 0;
-      
-      //socket.emit(message);
   });
-
 });
+
 
 
 
