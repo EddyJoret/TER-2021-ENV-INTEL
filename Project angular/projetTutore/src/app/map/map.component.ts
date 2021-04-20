@@ -136,10 +136,14 @@ export class MapComponent implements OnInit{
       });*/
       this.appService.connect();
       this.sendMessage();
+      //this.sendMessagePoubelleId();
       this.receiveData();
+      //this.receiveDataPoubelleId();
       setInterval(() => {
         this.sendMessage();
+        //this.sendMessagePoubelleId();
         this.receiveData();
+        //this.receiveDataPoubelleId();
       }, 60000);
       this.initMap()
       
@@ -165,7 +169,7 @@ export class MapComponent implements OnInit{
       }
       this.addMarker(message);
       this.date = new Date();
-      console.log(this.date);
+      //console.log(this.date);
 
       
     },
@@ -179,10 +183,48 @@ export class MapComponent implements OnInit{
     );
   }
 
+  /*receiveDataPoubelleId(){
+    this.appService.receiveDataPoubelleId().subscribe((message) =>{
+      //console.log(message);
+      this.dataCapt1 = [...message];
+      console.log(message);
+      if(this.groupRecy != undefined){
+        this.map.removeLayer(this.groupRecy);
+        this.groupRecy.clearLayers();
+      }
+      if(this.groupCommun != undefined){
+        this.map.removeLayer(this.groupCommun);
+        this.groupCommun.clearLayers();
+      }
+      if(this.groupVerre != undefined){
+        this.map.removeLayer(this.groupVerre);
+        this.groupVerre.clearLayers();
+      }
+      this.addMarker(message);
+      this.date = new Date();
+      //console.log(this.date);
+
+      
+    },
+    (error) => {
+      console.log(error);
+    },
+    () => {
+      console.log('Fini');
+      
+    }
+    );
+  }*/
+
   sendMessage(){
     this.appService.sendMessage(this.message);
     this.message = "ok";
   }
+
+  /*sendMessagePoubelleId(){
+    this.appService.sendMessagePoubelleId(this.message);
+    this.message = "ok poubelle id";
+  }*/
 
   private initMap(): void {
     const tiles = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -213,7 +255,7 @@ export class MapComponent implements OnInit{
 
   initMarker(lat: any, long:any, object:any){
     const marker = L.marker([lat, long]);
-    marker.bindPopup("Poubelle numéro: " + object._id + "<br>" + "Type: " + object.Type + "<br><br>" + "Pression: " + object.Pression + "<br><br>" + "<button id='btn-info' onclick='infoPoubelle()'>+ d'info</button>");
+    marker.bindPopup("Type: " + object.Type + "<br><br>" + "Pression: " + object.Pression + "<br><br>" + "Seuil: " + object.Seuil + "<br><br>" + '<button (click)=\"infoPoubelle()\">+ dinfo</button>');
     if(object.Type == "Recyclage"){
       this.groupRecy?.addLayer(marker);
       marker.setIcon(this.greenRecy);

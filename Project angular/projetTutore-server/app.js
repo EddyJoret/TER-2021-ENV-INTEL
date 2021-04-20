@@ -40,9 +40,9 @@ app.use("/mqtt", function(req, res) {
 
 // établissement de la connexion
 
-app.use("/node-red",function(req,res){
+/*app.use("/node-red",function(req,res){
   console.log('ok node red');
-})
+})*/
 
 
 // catch 404 and forward to error handler

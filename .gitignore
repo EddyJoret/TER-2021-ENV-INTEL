@@ -15,3 +15,5 @@
 flows_cred.json
 node_modules
 .DS_Store
+.DS_Store
+Env-Node-Red/.config.users.json.backup

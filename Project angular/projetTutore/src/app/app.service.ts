@@ -37,4 +37,16 @@ export class AppService {
   sendMessage(message:any){
     this.socket?.emit('new-message', message);
   }
+
+  /*sendMessagePoubelleId(message:any){
+    this.socket?.emit('new-poubelle_id', message);
+  }
+
+  receiveDataPoubelleId() : Observable<any>{
+    return new Observable((observer) =>{
+      this.socket?.on('new-poubelle_id', (message)=>{
+        observer.next(message);
+      })
+    })
+  }*/
 }

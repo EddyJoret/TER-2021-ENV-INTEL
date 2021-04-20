@@ -24,6 +24,7 @@ app.set('port', port);
 
 var server = http.createServer(app);
 var essai;
+var poubelleHist = [];
 
 // ajout de socket.io
 //const server = require('http').Server(app);
@@ -37,12 +38,37 @@ io.on('connection', (socket) => {
   
   socket.on('new-message', (message) => {
     dbMongo.queryCollection().then((value) => {
-      essai = value;
-      console.log(essai);
-      socket.emit('new-message', essai.handsetCards);
-      essai.handsetCards.length = 0;
+      essai = value.handsetCards;
+      var poubelleid = value.tabPoubelleId;
+      for(var i = 0; i< poubelleid.length; i++){
+        var position;
+        var date = new Date('1970-01-01T00:00:00.000Z');
+        for(var j = 0; j< essai.length; j++){
+          if(poubelleid[i].Coord.Lat == essai[j].Coord.Lat && poubelleid[i].Coord.Long == essai[j].Coord.Long){
+            if(new Date(essai[j].Date).getTime() > date.getTime()){
+              position = j;
+              date = new Date(essai[j].Date);
+            }
+          }
+        }
+        //console.log(essai[position]);
+        poubelleHist.push(essai[position]);
+      }
+      socket.emit('new-message', poubelleHist);
+      poubelleHist.splice(0,poubelleHist.length);
+      essai.splice(0,essai.length);
+      poubelleid.splice(0,poubelleid.length);
     })
   });
+
+  /*socket.on('new-poubelle_id', (message) => {
+    console.log('connection poubelle id');
+    dbMongo.queryCollection().then((value) => {
+      var poubelleid = value.tabPoubelleId;
+      socket.emit('new-poubelle_id', poubelleid);
+      poubelleid.length = 0;
+    })
+  });*/
 });
 
 

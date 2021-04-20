@@ -8,7 +8,8 @@ var db = null;
 
 let jsonResponse = {
     "handsetCards": [],
-    "webCards": []
+    "webCards": [],
+    "tabPoubelleId": []
 };
 
 const uri = "mongodb+srv://pcazalis:pcazalis@projettutore.wpu3z.mongodb.net/capteurs?retryWrites=true&w=majority";
@@ -25,6 +26,7 @@ async function queryCollection(){
     if(connected){
         
         const capteurHumCollection = await db.collection('poubelle').find().toArray();
+        const poubelleIdCollection = await db.collection('poubelle_id').find().toArray();
         capteurHumCollection.forEach(element => {
             let handsetElement = {};
             /*handsetElement['_id'] = element['_id'];
@@ -37,6 +39,7 @@ async function queryCollection(){
             handsetElement['Type'] = element['Type'];
             handsetElement['Seuil'] = element['Seuil'];
             handsetElement['Pression'] = element['Pression'];
+            handsetElement['Date'] = element['Date'];
             //handsetElement['_msgid'] = element['_msgid'];
             jsonResponse.handsetCards.push(handsetElement);
 
@@ -55,6 +58,14 @@ async function queryCollection(){
             jsonResponse.webCards.push(webElement);
 
         });
+
+        poubelleIdCollection.forEach(element => {
+            let poubelleIdElement = {};
+            poubelleIdElement['_id'] = element['_id'];
+            poubelleIdElement['Coord'] = element['Coord'];
+            jsonResponse.tabPoubelleId.push(poubelleIdElement);
+        });
+
         return jsonResponse;
     }else{
         return null
