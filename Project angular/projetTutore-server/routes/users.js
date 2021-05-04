@@ -24,8 +24,9 @@ router.get('/', function(req, res, next) {
     
   }, 3000);*/
 
-  dbMongo.queryCollection().then(response =>{
+  dbMongo.writeData().then(response =>{
     res.json(response);
+    console.log('ok');
   }).catch(error =>{
     res.status(500).json({});
   });

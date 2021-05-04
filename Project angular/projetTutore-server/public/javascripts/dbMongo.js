@@ -14,6 +14,12 @@ let jsonResponse = {
 
 const uri = "mongodb+srv://pcazalis:pcazalis@projettutore.wpu3z.mongodb.net/capteurs?retryWrites=true&w=majority";
 
+const pizzaDocument = {
+    name: "Neapolitan pizza",
+    shape: "round",
+    toppings: [ "San Marzano tomatoes", "mozzarella di bufala cheese" ],
+};
+
 mongoClient.connect(uri, {useUnifiedTopology: true}).then(connection =>{
     connected = true;
     db = connection.db('capteurs');
@@ -21,6 +27,12 @@ mongoClient.connect(uri, {useUnifiedTopology: true}).then(connection =>{
 }).catch(error =>{
     console.log("erreur connection db");
 });
+
+async function writeData(){
+    if(connected){
+        const capthum = await db.collection('capteur_hum').insertOne(pizzaDocument);
+    }
+}
 
 async function queryCollection(){
     if(connected){
@@ -73,4 +85,4 @@ async function queryCollection(){
 }
 
 
-module.exports = {queryCollection, jsonResponse};
+module.exports = {queryCollection, jsonResponse, writeData};
