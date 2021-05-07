@@ -31,14 +31,19 @@ app.use('/capt1', captHumRouter);
 //app.use('/data', usersRouter);
 
 
-/*var mqttClient = new mqttHandler();
+var mqttClient = new mqttHandler();
 mqttClient.connect();
 
 
-app.use("/mqtt", function(req, res) {
+/*app.use("/mqtt", function(req, res) {
   mqttClient.receiveMessage();
   //res.status(200).send("Message sent to mqtt");
 });*/
+
+app.use("/test", function(req,res){
+  console.log("hello");
+  res.send('test');
+})
 
 
 // établissement de la connexion

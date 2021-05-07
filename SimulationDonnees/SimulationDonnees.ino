@@ -1,5 +1,5 @@
 #include <math.h>
-#include <TimeLib.h>
+
 
 //Variables seuil, pression, lat et long pour les poubelles type verre
 const int verreSeuil = 1000;
@@ -59,7 +59,7 @@ void setupBDHist(){
   for(int i = 1; i <= (NbVerre + NbCommun + NbRecyclage); i++){
     j = j % 4;
     if(i <= NbVerre){
-      msg = "{\"poubelle_id\":" + String(i) + ", \"Coord\":{\"Lat\":" + verreLat[j] + ", \"Long:\"" + verreLong[j] + "}, \"Pression\":0, \"Date\":" + String(now())  + "}";
+      msg = "{\"poubelle_id\":" + String(i) + ", \"Coord\":{\"Lat\":" + verreLat[j] + ", \"Long:\"" + verreLong[j] + "}, \"Pression\":0, \"Date\":"   + "}";
     }else if(i <= (NbVerre + NbCommun)){    
       msg = "{\"poubelle_id\":" + String(i) + ", \"Coord\":{\"Lat\":" + communLat[j] + ", \"Long\":" + communLong[j] + "}, \"Pression\":0, \"Date\":"  + "}";
     }else{

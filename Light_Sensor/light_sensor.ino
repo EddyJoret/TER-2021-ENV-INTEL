@@ -11,18 +11,18 @@
 
 // Variables pour connection WiFi et MQTT avec ses topics
 //    WiFI
-char* ssid = "Bbox-AAC99E7C";
-char* password = "9P6HeG4ghiL275rEWg";
+char* ssid = "Iphone de Pauline";
+char* password = "bolopopocarbo";
 
 //    MQTT & topics
-char* mqtt_server = "192.168.1.67";
+char* mqtt_server = "mqtt-brocker";
 char *topicPoub = "poubelle"; 
-char *topicLum = "lumiere";
+char *topicLum = "essai";
 
 WiFiClient espClient;
 PubSubClient client(espClient);
 
-int WiFi_status = WL_IDLE_STATUS
+int WiFi_status = WL_IDLE_STATUS;
 
 // Variables pour le capteur photosensible
 int photocellPin = A0;
@@ -125,6 +125,7 @@ void loop() {
     }else{
       nuit = true;
       Serial.println(" : send, night is here");
+      mqtt_publishInt(topicLum, photocellReading);
     }
   }else{
     Serial.print(" - Day");
@@ -159,7 +160,7 @@ void mqtt_publishInt(String topic, int t){
 }
 
 //Fonction pour publier un String sur un topic 
-void mqtt_publishInt(String topic, String t){
+void mqtt_publishString(String topic, String t){
   char top[topic.length()+1];
   topic.toCharArray(top,topic.length()+1);
   char t_char[50];

@@ -14,13 +14,14 @@ version: "3.7"
 # the list of container to start
 services:
   node-red:
-    build: 
+    build:
       context: ./Env-Node-Red
       dockerfile: Dockerfile
     environment:
       - TZ=Europe/Amsterdam
     depends_on:
       - mqtt-brocker
+      - projettutoreservice
     restart: unless-stopped
     networks:
       - projet-net
@@ -32,7 +33,7 @@ services:
       - ./Env-Node-Red:/data
       #Pour Windows:
       #- .\:/data
-  
+
 
   mqtt-brocker:
     image: eclipse-mosquitto:1.6
@@ -42,10 +43,10 @@ services:
     ports:
       - "1883:1883"
       #- "5445:1883"
-  
+
   projettutoreservice:
     image: node:12.18-alpine
-    build: 
+    build:
       context: .
       dockerfile: ./Project Angular/projetTutore-server/Dockerfile
     environment:
@@ -59,7 +60,7 @@ services:
       - "3000:3000"
     volumes :
       - ./Project Angular/projetTutore-server:/usr/src/app
-      
+
 
 # Declare a couple volume that will outlive the VMs
 volumes:

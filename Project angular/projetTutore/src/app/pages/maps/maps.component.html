@@ -1,0 +1,130 @@
+
+<div class="row">
+  <div class="col-md-12">
+    <div class="card ">
+      <div class="card-header ">
+        Google Maps
+      </div>
+      <div class="card-body ">
+        <div id="map" class="map"></div>
+      </div>
+      <div class="card-footer ">
+        <hr>
+        <div class="stats">
+          <i class="fa fa-refresh"></i>
+          <div *ngIf="date != undefined">
+            <p id="msj-data">Mise à jour des données : {{date.toLocaleDateString('fr-FR')}} à {{date.toLocaleTimeString('fr-FR')}}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!--<div class="card">
+      <div class="card-header ">
+        <h5 class="card-title">Remplissage poubelle 1</h5>
+        <p class="card-category">Données des dernières 24h</p>
+      </div>
+      <div class="card-body ">
+        <canvas id=chartHours width="400" height="100"></canvas>
+      </div>
+      <div class="card-footer ">
+        <hr>
+        <div class="stats">
+          <i class="fa fa-history"></i> Updated 3 minutes ago
+        </div>
+      </div>
+    </div>-->
+    
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-lg-3 col-md-6 col-sm-6">
+    <div class="card card-stats">
+      <div class="card-header ">
+        <h5 class="card-title">Poubelles à verre pleines</h5>
+        <!--<p class="card-category">Données des dernières 24h</p>-->
+      </div>
+      <div class="card-body ">
+        <div class="row">
+          <!--<canvas id=chartpoub1 width="400" height="100"></canvas>-->
+          <div *ngFor="let data of dataCapt1">
+            <div *ngIf="data.Type == 'Verre'">
+              <div *ngIf="data.Pression >= data.Seuil">&nbsp;&nbsp;&nbsp;&nbsp;Poubelle {{data.Poubelle_id}} &nbsp;</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="card-footer ">
+        <hr>
+        <div class="stats">
+          <!--<i class="fa fa-refresh"></i> Update Now-->
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-lg-3 col-md-6 col-sm-6">
+    <div class="card card-stats">
+      <div class="card-header ">
+        <h5 class="card-title">Poubelles communes pleines</h5>
+      </div>
+      <div class="card-body ">
+        <div class="row">
+          <!--<canvas id=chartpoub2 width="400" height="100"></canvas>-->
+          <div *ngFor="let data of dataCapt1">
+            <div *ngIf="data.Type == 'Commun'">
+              <div *ngIf="data.Pression >= data.Seuil">&nbsp;&nbsp;&nbsp;&nbsp;Poubelle {{data.Poubelle_id}} &nbsp;</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="card-footer ">
+        <hr>
+        <div class="stats">
+          <!--<i class="fa fa-refresh"></i> Update Now-->
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-lg-3 col-md-6 col-sm-6">
+    <div class="card card-stats">
+      <div class="card-header ">
+        <h5 class="card-title">Poubelles recyclage pleines</h5>
+      </div>
+      <div class="card-body ">
+        <div class="row">
+          <!--<canvas id=chartpoub3 width="400" height="100"></canvas>-->
+          <div *ngFor="let data of dataCapt1">
+            <div *ngIf="data.Type == 'Recyclage'">
+              <div *ngIf="data.Pression >= data.Seuil">&nbsp;&nbsp;&nbsp;&nbsp;Poubelle {{data.Poubelle_id}} &nbsp;</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="card-footer ">
+        <hr>
+        <div class="stats">
+          <!--<i class="fa fa-refresh"></i> Update Now-->
+        </div>
+      </div>
+    </div>
+  </div>
+  <!--<div class="col-lg-3 col-md-6 col-sm-6">
+    <div class="card card-stats">
+      <div class="card-header ">
+        <h5 class="card-title">Remplissage poubelle 4</h5>
+        <p class="card-category">Données des dernières 24h</p>
+      </div>
+      <div class="card-body ">
+        <div class="row">
+          <canvas id=chartpoub4 width="400" height="100"></canvas>
+        </div>
+      </div>
+      <div class="card-footer ">
+        <hr>
+        <div class="stats">
+          <i class="fa fa-refresh"></i> Update Now
+        </div>
+      </div>
+    </div>
+  </div>-->
+</div>

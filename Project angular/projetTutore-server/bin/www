@@ -26,6 +26,7 @@ var server = http.createServer(app);
 var essai;
 var poubelleHist = [];
 
+
 // ajout de socket.io
 //const server = require('http').Server(app);
 const io = require('socket.io')(server, {
@@ -33,14 +34,11 @@ const io = require('socket.io')(server, {
   origins: ["*"]
 });
 
-const io2 = require("socket.io")(3010);
-
-io2.on('connection', (socket) =>{
-  socket.send("Hello!");
-})
-
 io.on('connection', (socket) => {
   console.log('user connected');
+  socket.on('essai', (message)=>{
+    console.log('ok lets go');
+  })
   socket.on('new-message', (message) => {
     dbMongo.queryCollection().then((value) => {
       essai = value.handsetCards;
@@ -49,15 +47,24 @@ io.on('connection', (socket) => {
         var position;
         var date = new Date('1970-01-01T00:00:00.000Z');
         for(var j = 0; j< essai.length; j++){
-          if(poubelleid[i].Coord.Lat == essai[j].Coord.Lat && poubelleid[i].Coord.Long == essai[j].Coord.Long){
+          if(poubelleid[i]._id == essai[j]._id){
             if(new Date(essai[j].Date).getTime() > date.getTime()){
               position = j;
               date = new Date(essai[j].Date);
             }
           }
         }
-        //console.log(essai[position]);
-        poubelleHist.push(essai[position]);
+        var jsonData = {
+          "Poubelle_id" : essai[position]._id,
+          "Type": poubelleid[i].Type,
+          "Coord": {
+            "Lat": poubelleid[i].Coord.Lat,
+            "Long": poubelleid[i].Coord.Long
+          },
+          "Seuil": poubelleid[i].Seuil,
+          "Pression": essai[position].Pression
+        };
+        poubelleHist.push(jsonData);
       }
       socket.emit('new-message', poubelleHist);
       poubelleHist.splice(0,poubelleHist.length);

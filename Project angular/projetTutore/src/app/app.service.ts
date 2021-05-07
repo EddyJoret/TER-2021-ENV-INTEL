@@ -1,9 +1,9 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { from, Observable } from 'rxjs';
 import { Socket, io } from 'socket.io-client';
-import { map } from 'rxjs/operators';
-import { environment } from 'src/environments/environment'
+import { environment } from '../environments/environment'
+import { MapsComponent } from '../app/pages/maps/maps.component';
 
 @Injectable({
   providedIn: 'root'
@@ -21,9 +21,20 @@ export class AppService {
   }*/
 
   socket: Socket | undefined;
+  mapcompo: MapsComponent ;
 
   connect(){
     this.socket = io(environment.SOCKET_ENDPOINT);
+    /*this.socket?.on('new-message', (message)=>{
+      //observer.next(message);
+      //console.log(message);
+      console.log(message);
+      if(this.mapcompo != undefined){
+        console.log('recu');
+        this.mapcompo.receiveData(message);
+      }
+      
+    })*/
   }
 
   receiveData() : Observable<any>{

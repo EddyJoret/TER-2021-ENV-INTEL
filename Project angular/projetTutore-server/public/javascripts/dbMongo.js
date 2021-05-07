@@ -8,7 +8,6 @@ var db = null;
 
 let jsonResponse = {
     "handsetCards": [],
-    "webCards": [],
     "tabPoubelleId": []
 };
 
@@ -28,46 +27,33 @@ mongoClient.connect(uri, {useUnifiedTopology: true}).then(connection =>{
     console.log("erreur connection db");
 });
 
-async function writeData(){
+function writeDataId(data, collec){
     if(connected){
-        const capthum = await db.collection('capteur_hum').insertOne(pizzaDocument);
+        db.collection(collec).save(data);
+    }
+}
+
+function writeDataHist(data, collec){
+    if(connected){
+        db.collection(collec).insertOne(data);
     }
 }
 
 async function queryCollection(){
     if(connected){
         
-        const capteurHumCollection = await db.collection('poubelle').find().toArray();
+        const capteurHumCollection = await db.collection('poubelle_hist').find().toArray();
         const poubelleIdCollection = await db.collection('poubelle_id').find().toArray();
         capteurHumCollection.forEach(element => {
             let handsetElement = {};
             /*handsetElement['_id'] = element['_id'];
             handsetElement['data'] = element['payload'].data;
             handsetElement['date'] = element['payload'].ts;*/
-            handsetElement['_id'] = element['_id'];
-            /*handsetElement['Lat'] = element['Lat'];
-            handsetElement['Long'] = element['Long'];*/
-            handsetElement['Coord'] = element['Coord'];
-            handsetElement['Type'] = element['Type'];
-            handsetElement['Seuil'] = element['Seuil'];
+            handsetElement['_id'] = element['Poubelle_id'];
             handsetElement['Pression'] = element['Pression'];
             handsetElement['Date'] = element['Date'];
             //handsetElement['_msgid'] = element['_msgid'];
             jsonResponse.handsetCards.push(handsetElement);
-
-            let webElement = {};
-            /*webElement['_id'] = element['_id'];
-            webElement['data'] = element['payload'].data;
-            webElement['date'] = element['payload'].ts;*/
-            webElement['_id'] = element['_id'];
-            /*webElement['Lat'] = element['Lat'];
-            webElement['Long'] = element['Long'];*/
-            webElement['Coord'] = element['Coord'];
-            webElement['Type'] = element['Type'];
-            webElement['Seuil'] = element['Seuil'];
-            webElement['Pression'] = element['Pression'];
-            //webElement['_msgid'] = element['_msgid'];
-            jsonResponse.webCards.push(webElement);
 
         });
 
@@ -75,6 +61,8 @@ async function queryCollection(){
             let poubelleIdElement = {};
             poubelleIdElement['_id'] = element['_id'];
             poubelleIdElement['Coord'] = element['Coord'];
+            poubelleIdElement['Type'] = element['Type'];
+            poubelleIdElement['Seuil'] = element['Seuil'];
             jsonResponse.tabPoubelleId.push(poubelleIdElement);
         });
 
@@ -85,4 +73,4 @@ async function queryCollection(){
 }
 
 
-module.exports = {queryCollection, jsonResponse, writeData};
+module.exports = {queryCollection, jsonResponse, writeDataId, writeDataHist};

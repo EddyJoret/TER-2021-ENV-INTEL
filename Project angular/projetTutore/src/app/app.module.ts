@@ -1,58 +1,38 @@
+import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { NgModule } from '@angular/core';
-import { BrowserModule } from '@angular/platform-browser';
+import { RouterModule } from '@angular/router';
+import { ToastrModule } from "ngx-toastr";
 
-import { AppRoutingModule } from './app-routing.module';
+import { SidebarModule } from './sidebar/sidebar.module';
+import { FooterModule } from './shared/footer/footer.module';
+import { NavbarModule} from './shared/navbar/navbar.module';
+import { FixedPluginModule} from './shared/fixedplugin/fixedplugin.module';
+
 import { AppComponent } from './app.component';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import {MatButtonModule} from '@angular/material/button';
-import { NavComponent } from './nav/nav.component';
-import { LayoutModule } from '@angular/cdk/layout';
-import { MatToolbarModule } from '@angular/material/toolbar';
-import { MatSidenavModule } from '@angular/material/sidenav';
-import { MatIconModule } from '@angular/material/icon';
-import { MatListModule } from '@angular/material/list';
-import { HomeComponent } from './home/home.component';
-import { MatGridListModule } from '@angular/material/grid-list';
-import { MatCardModule } from '@angular/material/card';
-import { MatMenuModule } from '@angular/material/menu';
+import { AppRoutes } from './app.routing';
 import { HttpClient, HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
-import {MatSnackBarModule} from '@angular/material/snack-bar';
-import {MatSlideToggleModule} from '@angular/material/slide-toggle';
-import {MatProgressBarModule} from '@angular/material/progress-bar';
-import { InterceptorService } from './loader/interceptor.service';
-import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
-import { ChartsModule } from 'ng2-charts';
-import { MapComponent } from './map/map.component';
-import { Capteur1Component } from './capteur1/capteur1.component';
+import { AdminLayoutComponent } from './layouts/admin-layout/admin-layout.component';
 import { SocketIoModule, SocketIoConfig } from 'ngx-socket-io';
+import { InterceptorService } from './loader/interceptor.service';
 const config: SocketIoConfig = { url: 'http://localhost:3000/', options: {} };
+
+
 @NgModule({
   declarations: [
     AppComponent,
-    NavComponent,
-    HomeComponent,
-    MapComponent,
-    Capteur1Component
+    AdminLayoutComponent
   ],
   imports: [
-    BrowserModule,
-    HttpClientModule,
-    AppRoutingModule,
     BrowserAnimationsModule,
-    MatButtonModule,
-    LayoutModule,
-    MatToolbarModule,
-    MatSidenavModule,
-    MatIconModule,
-    MatListModule,
-    MatGridListModule,
-    MatCardModule,
-    MatMenuModule,
-    MatSnackBarModule,
-    MatSlideToggleModule,
-    //MatProgressBarModule,
-    MatProgressSpinnerModule,
-    ChartsModule,
+    HttpClientModule,
+    RouterModule.forRoot(AppRoutes,{
+      useHash: true
+    }),
+    SidebarModule,
+    NavbarModule,
+    ToastrModule.forRoot(),
+    FooterModule,
+    FixedPluginModule,
     SocketIoModule.forRoot(config)
   ],
   providers: [

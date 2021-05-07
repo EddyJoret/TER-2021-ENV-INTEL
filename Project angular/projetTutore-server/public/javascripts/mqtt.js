@@ -29,7 +29,7 @@
   }
 }*/
 var mqtt = require('mqtt')
-var client  = mqtt.connect('mqtt://192.168.8.114:1883')
+var client  = mqtt.connect('mqtt-brocker:1883')
  
 client.on('connect', function () {
     //subsribe au topic presence
